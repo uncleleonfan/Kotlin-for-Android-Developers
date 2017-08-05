@@ -15,11 +15,13 @@ class ForecastDbHelper(ctx: Context = App.instance) : ManagedSQLiteOpenHelper(ct
     }
 
     override fun onCreate(db: SQLiteDatabase) {
+        println("ForecastDbHelper onCreate CityForecast")
         db.createTable(CityForecastTable.NAME, true,
                 CityForecastTable.ID to INTEGER + PRIMARY_KEY,
                 CityForecastTable.CITY to TEXT,
                 CityForecastTable.COUNTRY to TEXT)
-
+        println("ForecastDbHelper onCreate DayForecast")
+        //anto 0.10.1 will have error using AUTOINCREMENT, change version to 0.10.0
         db.createTable(DayForecastTable.NAME, true,
                 DayForecastTable.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
                 DayForecastTable.DATE to INTEGER,

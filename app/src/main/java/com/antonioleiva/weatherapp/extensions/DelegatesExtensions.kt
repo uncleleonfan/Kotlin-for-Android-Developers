@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import kotlin.reflect.KProperty
-
+//Object声明单例
 object DelegatesExt {
     fun <T> notNullSingleValue() = NotNullSingleValueVar<T>()
     fun <T> preference(context: Context, name: String,
@@ -15,10 +15,11 @@ class NotNullSingleValueVar<T> {
 
     private var value: T? = null
 
+    //委托属性，get方法调用时被调用
     operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return value ?: throw IllegalStateException("${property.name} not initialized")
     }
-
+    //委托属性 set方法调用时被调用
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
         this.value = if (this.value == null) value
         else throw IllegalStateException("${property.name} already initialized")

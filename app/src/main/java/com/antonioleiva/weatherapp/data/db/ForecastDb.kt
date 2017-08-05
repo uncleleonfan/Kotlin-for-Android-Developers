@@ -11,7 +11,7 @@ class ForecastDb(val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.insta
         val dataMapper: DbDataMapper = DbDataMapper()) : ForecastDataSource {
 
     override fun requestForecastByZipCode(zipCode: Long, date: Long) = forecastDbHelper.use {
-
+        println("requestForecastByZipCode in ForecastDb")
         val dailyRequest = "${DayForecastTable.CITY_ID} = ? AND ${DayForecastTable.DATE} >= ?"
         val dailyForecast = select(DayForecastTable.NAME)
                 .whereSimple(dailyRequest, zipCode.toString(), date.toString())
@@ -32,7 +32,7 @@ class ForecastDb(val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.insta
     }
 
     fun saveForecast(forecast: ForecastList) = forecastDbHelper.use {
-
+        println("saveForecast")
         clear(CityForecastTable.NAME)
         clear(DayForecastTable.NAME)
 
