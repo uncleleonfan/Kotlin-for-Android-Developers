@@ -1,5 +1,6 @@
 package com.antonioleiva.weatherapp.domain.datasource
 
+import com.antonioleiva.weatherapp.data.db.ForecastDb
 import com.antonioleiva.weatherapp.data.server.ForecastServer
 import com.antonioleiva.weatherapp.domain.model.Forecast
 import com.antonioleiva.weatherapp.domain.model.ForecastList
@@ -9,8 +10,7 @@ class ForecastProvider(val sources: List<ForecastDataSource> = ForecastProvider.
 
     companion object {
         val DAY_IN_MILLIS = 1000 * 60 * 60 * 24
-//        val SOURCES by lazy { listOf(ForecastDb(), ForecastServer()) }
-        val SOURCES by lazy { listOf(ForecastServer()) }
+        val SOURCES by lazy { listOf(ForecastDb(), ForecastServer()) }
     }
 
     /**
@@ -30,6 +30,7 @@ class ForecastProvider(val sources: List<ForecastDataSource> = ForecastProvider.
         if (res != null && res.size >= days) res else null
     }
 
+    //请求天气详情
     fun requestForecast(id: Long): Forecast = requestToSources { it.requestDayForecast(id) }
 
     private fun todayTimeSpan() = System.currentTimeMillis() / DAY_IN_MILLIS * DAY_IN_MILLIS

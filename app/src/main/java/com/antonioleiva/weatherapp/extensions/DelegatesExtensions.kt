@@ -7,6 +7,7 @@ import kotlin.reflect.KProperty
 //Object声明单例
 object DelegatesExt {
     fun <T> notNullSingleValue() = NotNullSingleValueVar<T>()
+
     fun <T> preference(context: Context, name: String,
             default: T) = Preference(context, name, default)
 }
@@ -28,12 +29,14 @@ class NotNullSingleValueVar<T> {
 
 class Preference<T>(val context: Context, val name: String, val default: T) {
 
+    //懒加载SharedPreferences对象
     val prefs: SharedPreferences by lazy { context.getSharedPreferences("default", Context.MODE_PRIVATE) }
 
+    //获取一个Preference
     operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return findPreference(name, default)
     }
-
+    //保存一个Preference
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
         putPreference(name, value)
     }

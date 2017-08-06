@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import com.antonioleiva.weatherapp.R
 import com.antonioleiva.weatherapp.domain.commands.RequestForecastCommand
 import com.antonioleiva.weatherapp.domain.model.ForecastList
@@ -21,13 +20,17 @@ class MainActivity : AppCompatActivity(), ToolbarManager {
 
     val TAG = "MainActivity"
 
+    //邮编，通过SharedPreference获取
     val zipCode: Long by DelegatesExt.preference(this, SettingsActivity.ZIP_CODE,
             SettingsActivity.DEFAULT_ZIP)
+
+    //Toolbar 委托懒加载
     override val toolbar by lazy { find<Toolbar>(R.id.toolbar) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //初始化Toolbar
         initToolbar()
         //设置RecyclerView的LayoutManager
         forecastList.layoutManager = LinearLayoutManager(this)
@@ -44,12 +47,10 @@ class MainActivity : AppCompatActivity(), ToolbarManager {
     private fun loadForecast() = async(UI) {
         //在后台线程池中执行网络请求
         val result = bg { RequestForecastCommand(zipCode).execute() }
-        println("async")
         updateUI(result.await())
     }
 
     private fun updateUI(weekForecast: ForecastList) {
-        Log.d(TAG, "updateUI")
         val adapter = ForecastListAdapter(weekForecast) {
             startActivity<DetailActivity>(DetailActivity.ID to it.id,
                     DetailActivity.CITY_NAME to weekForecast.city)

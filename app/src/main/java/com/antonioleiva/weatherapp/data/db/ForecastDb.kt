@@ -27,7 +27,7 @@ class ForecastDb(val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.insta
     override fun requestDayForecast(id: Long) = forecastDbHelper.use {
         val forecast = select(DayForecastTable.NAME).byId(id).
                 parseOpt { DayForecast(HashMap(it)) }
-
+        //let为任何类型的扩展函数
         forecast?.let { dataMapper.convertDayToDomain(it) }
     }
 

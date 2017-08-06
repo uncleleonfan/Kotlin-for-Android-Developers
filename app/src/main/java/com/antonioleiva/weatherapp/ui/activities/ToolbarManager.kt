@@ -25,6 +25,7 @@ interface ToolbarManager {
         toolbar.inflateMenu(R.menu.menu_main)
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
+                //点击设置按钮跳转到SettingsActivity
                 R.id.action_settings -> toolbar.ctx.startActivity<SettingsActivity>()
                 else -> App.instance.toast("Unknown option")
             }
@@ -37,6 +38,10 @@ interface ToolbarManager {
         toolbar.setNavigationOnClickListener { up() }
     }
 
+//    private fun createUpDrawable() = with(DrawerArrowDrawable(toolbar.ctx)) {
+//        progress = 1f
+//        this
+//    }
     private fun createUpDrawable() = DrawerArrowDrawable(toolbar.ctx).apply { progress = 1f }
 
     fun attachToScroll(recyclerView: RecyclerView) {

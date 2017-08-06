@@ -7,6 +7,8 @@ import com.antonioleiva.weatherapp.domain.model.Forecast as ModelForecast
 
 class ServerDataMapper {
 
+    //{ ForecastList(zipCode, city.name, city.country, convertForecastListToDomain(list))}作为forecast的
+    //扩展函数使用
     fun convertToDomain(zipCode: Long, forecast: ForecastResult) = with(forecast) {
         ForecastList(zipCode, city.name, city.country, convertForecastListToDomain(list))
     }

@@ -10,11 +10,13 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class SettingsActivity : AppCompatActivity() {
 
+    //伴生对象
     companion object {
         val ZIP_CODE = "zipCode"
         val DEFAULT_ZIP = 94043L
     }
 
+    //委托
     var zipCode: Long by DelegatesExt.preference(this, ZIP_CODE, DEFAULT_ZIP)
 
     override fun onCreate(savedInstanceState: Bundle?) {
